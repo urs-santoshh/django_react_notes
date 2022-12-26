@@ -1,0 +1,4 @@
+/venv
+/core/__pycache__
+/django_react_notes/__pycache__
+/core/migrations/__pycache__
