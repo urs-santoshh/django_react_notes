@@ -1,14 +1,15 @@
 import React, { useContext, useState } from "react";
+import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import AlertContext from "../context/AlertContext";
-import UserContext from "../context/UserContext";
 import postRequest from "../api/postRequest";
+import UserContext from "../context/UserContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const url = "http://127.0.0.1:8000/api/token/";
   const { showAlert } = useContext(AlertContext);
-  const { changeAuthentication } = useContext(UserContext);
+  const { setUser, setAuthToken } = useContext(UserContext);
   const [userData, setUserData] = useState({
     username: "",
     password: "",
@@ -18,23 +19,22 @@ const Login = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      const response = await postRequest(url, userData)
-      const data = await response.json()
-      if (response.status === 200){
+    try {
+      const response = await postRequest(url, userData);
+      const data = await response.json();
+      if (response.status === 200) {
         showAlert("User log in successful", "success");
-        localStorage.setItem("authToken", JSON.stringify(data))
-        changeAuthentication(true)
-        navigate("/")
-      }
-      else{
+        setAuthToken(data);
+        setUser(jwt_decode(data.access));
+        localStorage.setItem("authToken", JSON.stringify(data));
+        navigate("/");
+      } else {
         showAlert("User credential doesnot match", "warning");
       }
+    } catch {
+      showAlert("Something went wrong", "warning");
     }
-    catch{
-      showAlert("Something went wrong", "warning")
-    }
-  }
+  };
 
   return (
     <div className="container mt-2">

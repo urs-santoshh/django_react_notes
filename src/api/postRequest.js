@@ -4,10 +4,7 @@ const postRequest = async (url, userData) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      username: userData.username,
-      password: userData.password,
-    }),
+    body: JSON.stringify(userData),
   });
   return response;
 };

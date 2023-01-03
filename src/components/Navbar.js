@@ -3,17 +3,13 @@ import { NavLink } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
 const Navbar = () => {
-  const { isAuthenticated, changeAuthentication } = useContext(UserContext);
-  const handleLogout = () => {
-    changeAuthentication(false);
-    localStorage.removeItem("authToken");
-  };
+  const { user, logoutUser } = useContext(UserContext);
 
   return (
     <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div className="container-fluid">
         <a className="navbar-brand" href="#/">
-          Navbar
+          Welcome {user ? `@${user.username}` : null}
         </a>
         <button
           className="navbar-toggler"
@@ -34,8 +30,8 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li className="nav-item">
-              {isAuthenticated ? (
-                <NavLink className="nav-link" to="/login" onClick={handleLogout}>
+              {user ? (
+                <NavLink className="nav-link" to="/login" onClick={logoutUser}>
                   Logout
                 </NavLink>
               ) : (
