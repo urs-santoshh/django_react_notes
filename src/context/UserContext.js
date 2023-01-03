@@ -46,6 +46,11 @@ export const UserContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
+
+    if (loading) {
+       updateToken();
+      }
+
     let time = 1000 * 60 * 4.2;
     let interval = setInterval(() => {
       if (authToken) {
