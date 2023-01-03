@@ -16,25 +16,25 @@ const Login = () => {
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    postRequest(url, userData)
-      .then((response) => {
-        if (response.status === 200) {
-          showAlert("User logged in successfully", "success");
-          changeAuthentication(true);
-          navigate("/");
-        } else {
-          showAlert("User login was not successful", "warning");
-        }
-      })
-      .catch((err) => {
-        showAlert("User login was not successful", "warning");
-        console.log(err.message);
-      });
-
-    // console.log(userData)
-  };
+    try{
+      const response = await postRequest(url, userData)
+      const data = await response.json()
+      if (response.status === 200){
+        showAlert("User log in successful", "success");
+        localStorage.setItem("authToken", JSON.stringify(data))
+        changeAuthentication(true)
+        navigate("/")
+      }
+      else{
+        showAlert("User credential doesnot match", "warning");
+      }
+    }
+    catch{
+      showAlert("Something went wrong", "warning")
+    }
+  }
 
   return (
     <div className="container mt-2">

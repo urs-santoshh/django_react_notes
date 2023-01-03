@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 const Navbar = () => {
+  const { isAuthenticated, changeAuthentication } = useContext(UserContext);
+  const handleLogout = () => {
+    changeAuthentication(false);
+    localStorage.removeItem("authToken");
+  };
+
   return (
-    <nav className="navbar bg-primary" data-bs-theme="dark">
+    <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div className="container-fluid">
         <a className="navbar-brand" href="#/">
           Navbar
@@ -21,50 +29,20 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#/">
+              <NavLink className="nav-link" aria-current="page" to="/">
                 Home
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#/">
-                Link
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#/"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#/">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#/">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#/">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link disabled" href="#/">
-                Disabled
-              </a>
+              {isAuthenticated ? (
+                <NavLink className="nav-link" to="/login" onClick={handleLogout}>
+                  Logout
+                </NavLink>
+              ) : (
+                <NavLink className="nav-link" to="/login">
+                  Login
+                </NavLink>
+              )}
             </li>
           </ul>
           <form className="d-flex" role="search">
