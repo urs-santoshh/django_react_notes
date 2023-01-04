@@ -1,13 +1,9 @@
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
-import postRequest from "../api/postRequest";
+import fetchApi from "../api/fetchApi";
 
 const UserContext = createContext();
-
 export const UserContextProvider = ({ children }) => {
-  const url = "http://127.0.0.1:8000/api/token/refresh/";
-
-  const [loading, setLoading] = useState(true);
   const [authToken, setAuthToken] = useState(() =>
     localStorage.getItem("authToken")
       ? JSON.parse(localStorage.getItem("authToken"))
@@ -28,10 +24,16 @@ export const UserContextProvider = ({ children }) => {
 
   const updateToken = async () => {
     console.log("updating token");
+    const url = "http://127.0.0.1:8000/api/token/refresh/";
     const refreshToken = {
       refresh: authToken?.refresh,
     };
-    const response = await postRequest(url, refreshToken);
+    const response = await fetchApi({
+        url: url,
+        reqMethod: "POST",
+        userData: refreshToken,
+        access: null,
+      });
     const data = await response.json();
     if (response.status === 200) {
       setAuthToken(data);
@@ -40,16 +42,9 @@ export const UserContextProvider = ({ children }) => {
     } else {
       logoutUser();
     }
-    if (loading) {
-      setLoading(false);
-    }
   };
 
   useEffect(() => {
-
-    if (loading) {
-       updateToken();
-      }
 
     let time = 1000 * 60 * 4.2;
     let interval = setInterval(() => {
@@ -59,7 +54,7 @@ export const UserContextProvider = ({ children }) => {
     }, time);
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authToken, loading]);
+  }, [authToken]);
 
   const contextData = {
     authToken: authToken,

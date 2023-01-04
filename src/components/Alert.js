@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import AlertContext from "../context/AlertContext";
+import capFirstLetter from "../utils/capFirstLetter";
 
 const Alert = () => {
   const { alert } = useContext(AlertContext);
@@ -9,7 +10,7 @@ const Alert = () => {
         className={`alert alert-${alert.type} alert-dismissible fade show`}
         role="alert"
       >
-        <strong>{alert.type}!</strong> {alert.message}
+        <strong>{capFirstLetter(alert.type)}!</strong> {alert.message}
       </div>
     )
   );

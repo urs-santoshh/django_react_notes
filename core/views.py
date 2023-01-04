@@ -1,6 +1,6 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.decorators import api_view
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import MyTokenObtainPairSerializer, NotesSerializer
 from .models import Notes
@@ -46,27 +46,29 @@ def get_routes(request):
     return Response(routes)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_notes(request):
-    notes = Notes.objects.all()
+    notes = Notes.objects.filter(user=request.user)
     serializer = NotesSerializer(notes, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_note(request):
     data = request.data
     note = Notes.objects.create(
-        body=data['body']
+        user=request.user, notes=data['notes']
     )
     serializer = NotesSerializer(note, many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_note(request, pk):
     notes = Notes.objects.get(id=pk)
     serializer = NotesSerializer(notes, many=False)
     return Response(serializer.data)
 
-@csrf_exempt
 @api_view(['PUT'])
 def update_note(request, pk):
     data = request.data

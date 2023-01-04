@@ -2,12 +2,11 @@ import React, { useContext, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import AlertContext from "../context/AlertContext";
-import postRequest from "../api/postRequest";
 import UserContext from "../context/UserContext";
+import fetchApi from "../api/fetchApi";
 
 const Login = () => {
   const navigate = useNavigate();
-  const url = "http://127.0.0.1:8000/api/token/";
   const { showAlert } = useContext(AlertContext);
   const { setUser, setAuthToken } = useContext(UserContext);
   const [userData, setUserData] = useState({
@@ -18,9 +17,15 @@ const Login = () => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e) => {
+    const url = "http://127.0.0.1:8000/api/token/";
     e.preventDefault();
     try {
-      const response = await postRequest(url, userData);
+      const response = await fetchApi({
+        url: url,
+        reqMethod: "POST",
+        userData: userData,
+        access: null,
+      });
       const data = await response.json();
       if (response.status === 200) {
         showAlert("User log in successful", "success");
@@ -31,8 +36,8 @@ const Login = () => {
       } else {
         showAlert("User credential doesnot match", "warning");
       }
-    } catch {
-      showAlert("Something went wrong", "warning");
+    } catch (err) {
+      showAlert(err.message, "warning");
     }
   };
 

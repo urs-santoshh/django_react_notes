@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import UserContext from "../context/UserContext";
+import capFirstLetter from "../utils/capFirstLetter";
+// import { ToogleModeButton } from "./ToggleDarkMode";
 
 const Navbar = () => {
   const { user, logoutUser } = useContext(UserContext);
@@ -9,7 +11,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div className="container-fluid">
         <a className="navbar-brand" href="#/">
-          Welcome {user ? `@${user.username}` : null}
+          Welcome {user ? `@${capFirstLetter(user.username)}` : null}
         </a>
         <button
           className="navbar-toggler"
@@ -39,6 +41,9 @@ const Navbar = () => {
                   Login
                 </NavLink>
               )}
+            </li>
+            <li className="nav-item">
+              {/* <ToogleModeButton/> */}
             </li>
           </ul>
           <form className="d-flex" role="search">

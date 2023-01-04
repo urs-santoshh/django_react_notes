@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from "react";
-import getRequest from "../api/getRequest";
-import AddNoteButton from "../components/AddNoteButton"
+import React, { useState, useEffect, useContext } from "react";
+import fetchApi from "../api/fetchApi";
+import AddNoteButton from "../components/AddNoteButton";
 import NotesListItems from "../components/NotesListItems";
+import UserContext from "../context/UserContext";
 
 const Home = () => {
-  let [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState([]);
+  const { authToken } = useContext(UserContext);
 
   useEffect(() => {
     getNotes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let getNotes = async () => {
-    const url = "http://127.0.0.1:8000/api/notes/";
-    const response = await getRequest(url);
-    const data = await response.json();
-    setNotes(data);
+    try {
+      const url = "http://127.0.0.1:8000/api/notes/";
+      const response = await fetchApi({
+        url: url,
+        reqMethod: "GET",
+        userData: null,
+        access: authToken.access,
+      });
+      const data = await response.json();
+      setNotes(data);
+    } catch {
+      setNotes([]);
+    }
   };
 
   return (
