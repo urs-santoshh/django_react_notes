@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./hocs/Layout";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Home from "./pages/Home";
+import NotePage from "./pages/NotePage";
 import Login from "./pages/Login";
 import { AlertContextProvider } from "./context/AlertContext";
 import { UserContextProvider } from "./context/UserContext";
@@ -21,6 +22,15 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <Home />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  exact
+                  path="/notes/:noteId"
+                  element={
+                    <ProtectedRoute>
+                      <NotePage />
                     </ProtectedRoute>
                   }
                 />
