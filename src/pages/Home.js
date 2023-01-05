@@ -31,7 +31,7 @@ const Home = () => {
 
   return (
     <div className="container mt-2">
-      <h2 className="text-center">Home</h2>
+      <h2 className="text-center notes-title">Home</h2>
       <div className="notes">
         <div className="notes-header">
           <h2 className="notes-title">&#9782; Notes</h2>

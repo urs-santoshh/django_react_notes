@@ -29,11 +29,11 @@ export const UserContextProvider = ({ children }) => {
       refresh: authToken?.refresh,
     };
     const response = await fetchApi({
-        url: url,
-        reqMethod: "POST",
-        userData: refreshToken,
-        access: null,
-      });
+      url: url,
+      reqMethod: "POST",
+      userData: refreshToken,
+      access: null,
+    });
     const data = await response.json();
     if (response.status === 200) {
       setAuthToken(data);
@@ -45,7 +45,6 @@ export const UserContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-
     let time = 1000 * 60 * 4.2;
     let interval = setInterval(() => {
       if (authToken) {

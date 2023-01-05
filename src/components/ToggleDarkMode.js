@@ -1,20 +1,37 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import ThemeContext from "../context/ThemeContext";
 
 export const ToogleModeButton = () => {
-  const [isActive, setActive] = useState("false");
+  const { theme, setTheme } = useContext(ThemeContext);
+  const [checkBox, setCheckBox] = useState(
+    localStorage.getItem("theme") === "dark" ? true : false
+  );
 
-  const handleToggle = () => {
-    setActive((isActive) => !isActive);
-    let toggleState = isActive ? "dark" : "light";
-    document.body.className = toggleState;
+  const handleToggle = (e) => {
+    if (theme === "dark") {
+      setTheme("light");
+      setCheckBox(false)
+    }
+    if (theme === "light") {
+      setTheme("dark")
+      setCheckBox(true)
+    }
+    localStorage.setItem("theme", theme);
   };
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+    document.body.className = theme;
+  }, [theme, checkBox]);
 
   return (
     <div className="toggle-button">
       <input
         type="checkbox"
         className="checkbox"
+        name="checkBox"
         id="checkbox"
+        checked={checkBox}
         onChange={handleToggle}
       />
       <label htmlFor="checkbox" className="label">

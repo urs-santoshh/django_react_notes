@@ -7,40 +7,43 @@ import Login from "./pages/Login";
 import { AlertContextProvider } from "./context/AlertContext";
 import { UserContextProvider } from "./context/UserContext";
 import "./App.css";
+import { ThemeContextProvider } from "./context/ThemeContext";
 
 function App() {
   return (
-    <>
+    <div className="app">
       <Router>
         <AlertContextProvider>
           <UserContextProvider>
-            <Layout>
-              <Routes>
-                <Route
-                  exact
-                  path="/"
-                  element={
-                    <ProtectedRoute>
-                      <Home />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  exact
-                  path="/notes/:noteId"
-                  element={
-                    <ProtectedRoute>
-                      <NotePage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route exact path="/login" element={<Login />} />
-              </Routes>
-            </Layout>
+            <ThemeContextProvider>
+              <Layout>
+                <Routes>
+                  <Route
+                    exact
+                    path="/"
+                    element={
+                      <ProtectedRoute>
+                        <Home />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/notes/:noteId"
+                    element={
+                      <ProtectedRoute>
+                        <NotePage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route exact path="/login" element={<Login />} />
+                </Routes>
+              </Layout>
+            </ThemeContextProvider>
           </UserContextProvider>
         </AlertContextProvider>
       </Router>
-    </>
+    </div>
   );
 }
 

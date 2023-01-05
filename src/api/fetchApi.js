@@ -2,7 +2,6 @@ import csrftoken from "../utils/CSRFToken";
 
 const fetchApi = async ({ url, reqMethod, userData, access }) => {
   if (reqMethod === "GET") {
-    console.log(access);
     const response = await fetch(url, {
       method: "GET",
       headers: {

@@ -43,7 +43,7 @@ const Login = () => {
 
   return (
     <div className="container mt-2">
-      <h2 className="text-center">Login</h2>
+      <h2 className="text-center notes-title">Login</h2>
       <p>Please login to continue</p>
       <form>
         <div className="mb-3">

@@ -1,14 +1,22 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import ThemeContext from "../context/ThemeContext";
 import UserContext from "../context/UserContext";
 import capFirstLetter from "../utils/capFirstLetter";
-// import { ToogleModeButton } from "./ToggleDarkMode";
+import { ToogleModeButton } from "./ToggleDarkMode";
 
 const Navbar = () => {
   const { user, logoutUser } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
+  const color = theme === "dark" ? "#1f2124" : "#2596be";
 
   return (
-    <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <nav
+      className="navbar navbar-expand-lg"
+      style={{
+        "backgroundColor": color,
+      }}
+    >
       <div className="container-fluid">
         <a className="navbar-brand" href="#/">
           Welcome {user ? `@${capFirstLetter(user.username)}` : null}
@@ -43,7 +51,7 @@ const Navbar = () => {
               )}
             </li>
             <li className="nav-item">
-              {/* <ToogleModeButton/> */}
+              <ToogleModeButton />
             </li>
           </ul>
           <form className="d-flex" role="search">
@@ -53,7 +61,10 @@ const Navbar = () => {
               placeholder="Search"
               aria-label="Search"
             />
-            <button className="btn btn-outline-success" type="submit">
+            <button
+              className="btn btn-success"
+              onClick={(e) => e.preventDefault()}
+            >
               Search
             </button>
           </form>

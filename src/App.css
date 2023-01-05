@@ -10,8 +10,9 @@
   --color-bg: #f3f6f9;
   --color-light: #acb4bd;
   --color-lighter: #f9f9f9;
-  --color-white: rgb(194, 151, 103);
-  --color-border:#e0e3e6;
+  --color-white: rgb(230, 221, 211);
+  --color-off-white: rgb(219, 176, 127);
+  --color-border: #e0e3e6;
 }
 
 .dark {
@@ -22,13 +23,14 @@
   --color-bg: #1f2124;
   --color-lighter: #292a2c;
   --color-white: #2e3235;
-  --color-border:#252629;
+  --color-off-white: rgb(219, 176, 127);
+  --color-border: #252629;
 }
 
 /* BASE STYLES */
 
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -39,10 +41,12 @@
 }
 
 
-body{
+body {
   line-height: 1.8em;
   font-weight: 400;
   font-size: 16px;
+  background-color: var(--color-white);
+  color: var(--color-main)
 }
 
 a {
@@ -63,11 +67,7 @@ a {
 
 
 .app {
-  width: 100%;
-  max-width: 480px;
-  height: 88vh;
   margin: 0 auto;
-  background-color: var(--color-white);
   box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.05);
   position: relative;
 }
@@ -95,7 +95,7 @@ a {
   cursor: pointer;
 }
 
-.app-header button > svg {
+.app-header button>svg {
   fill: var(--color-dark);
   height: 25px;
   width: 25px;
@@ -104,6 +104,16 @@ a {
 
 .app-body {
   padding: 16px;
+}
+
+/*==============================
+=>  Navbar custom css
+================================*/
+#navbarSupportedContent ul li a{
+  color: white;
+}
+.navbar-brand {
+  color: white;
 }
 
 
@@ -134,7 +144,8 @@ a {
   margin: 16px 0;
   height: 70vh;
   overflow-y: auto;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .notes-list::-webkit-scrollbar {
@@ -142,7 +153,7 @@ a {
 }
 
 .notes-list-item {
-  border-bottom: 1px solid  var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   margin-bottom: 12px;
   padding: 8px 16px;
   transition: all 0.2s ease-in-out;
@@ -167,7 +178,7 @@ a {
 
 .notes-list-item p {
   font-size: 14px;
-  color: var(--color-light);
+  color: var(--color-dark);
 }
 
 .floating-button {
@@ -188,7 +199,7 @@ a {
 }
 
 
-.floating-button > svg {
+.floating-button>svg {
   fill: var(--color-bg);
 }
 
@@ -229,13 +240,15 @@ a {
 }
 
 .note textarea {
-  background-color: var(--color-white);
+  background-color: var(--color-off-white);
+  color: var(--color-dark);
   border: none;
   padding: 16px 12px;
   width: 100%;
   height: 70vh;
   resize: none;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .note textarea:active,
@@ -252,11 +265,14 @@ a {
 =>  Toggle Mode Button Style
 ================================*/
 
-.toggle-button{
-  position: absolute;
-  top: 20px;
-  right: 30px;
+@media only screen and (min-width: 992px) {
+  .toggle-button {
+    position: absolute;
+    top: 20px;
+    right: 350px;
+  }
 }
+
 
 .checkbox {
   opacity: 0;
@@ -265,7 +281,7 @@ a {
 
 .label {
   width: 50px;
-  height: 26px;
+  height: 20px;
   background-color: #111;
   display: flex;
   border-radius: 50px;
@@ -273,23 +289,23 @@ a {
   justify-content: space-between;
   padding: 5px;
   position: relative;
-  transform: scale(1.5);
+  transform: scale(1.2);
 }
 
 .ball {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   background-color: white;
   position: absolute;
   top: 2px;
   left: 2px;
   border-radius: 50%;
-  transition: transform 0.2s linear;
+  transition: transform 0.3s linear;
 }
 
 /*  target the elemenent after the label*/
 .checkbox:checked+.label .ball {
-  transform: translateX(24px);
+  transform: translateX(30px);
 }
 
 .fa-moon {
